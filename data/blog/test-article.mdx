@@ -1,13 +1,131 @@
 ---
-title: 'Test Article'
+title: 'Either: A Functional Approach to Error Handling in Kotlin'
 date: 2022-12-24T15:32:14Z
 lastmod: '2022-12-24'
-tags: ['kotlin', 'arrow']
+tags: ['kotlin', 'arrow', 'functional programming']
 draft: false
 summary: 'Test article test'
 layout: PostSimple
-bibliography: references-data.bib
 ---
 
-## Overview
-Let's see how it goes!
+  <div className="w-full">
+    ![Mountain Range](/static/images/landscape-1.png)
+  </div>
+
+<details>
+  <summary>Click me</summary>
+
+## Plan
+
+- traditional error handling: exceptions and catching
+    - example of a piece of code that does 3 chained calls
+- drawbacks of such approach
+    - no compile time verification of error handling
+    - hard to follow for programmer and for runtime (context switch)
+- introducing arrow's [Either](https://arrow-kt.io/docs/apidocs/arrow-core/arrow.core/-either/)
+- core principles / concepts
+  - similarity with c functions that can return an error code
+  - monad: a data structure that allow to combine function while adding some effect (in this case, the effect is error handling / short circuiting)
+  - right biased disjunction
+  - right vs left
+  - flatMap method
+  - map / mapLeft
+  - recovering from errors
+  - finally
+- usage
+  - typealias + base error type
+  - recovering from errors
+  - combining either results
+  - integrating with the rest of the world: Exception -> Either and Either -> Exception
+
+</details>
+
+TODO small intro?
+
+## Error handling
+Error handling is an important aspect of software development,
+as it allows developers to gracefully handle and recover from errors that may occur during the execution of a program.
+An error is defined as anything that makes it impossible to continue and finish the current computation or function.
+At that moment, we must stop the current computation (this is called "short circuiting") and return an error to the caller.
+
+When an error occurs, the calling code usually wants to perform either one of the following tasks:
+- Stop the current computation and let the error bubble up, optionally returning a new error instead of the original error
+- Gracefully handle the error by either ignoring it, logging it or performing an alternative computation to compensate for the error
+
+## Exceptions
+
+In languages such as Java and Kotlin, the most common way of handling errors is via exceptions and `try` / `catch` blocks.
+Any function or method can at any moment throw an exception: 
+An exception object containing information about the error (error message, error code, stack trace) is created on the spot and thrown to the caller.
+The current executing function will be stopped at the place the error was thrown,
+and the exception will "bubble up" the stack frame, stopping all caller functions, until it is caught (or until it terminates the program 🥲).
+
+However, this approach has some drawbacks:
+- It's not always clear wether a function will throw an exception or not (at least in Kotlin).
+You basically have to read the code or the documentation of the function in order to understand which exceptions can be thrown.
+It's very easy to forget to catch an exception and let it bubble up by mistake.
+- In Java specifically, the `throws` keyword allows to declare the exceptions that a method will throw.
+The compiler will then check that those exceptions are either declared on the caller or caught in a `catch` block.
+This approach makes it very verbose to declare and handle exceptions.
+By trying to address the first problem (lack of clarity of which exception is thrown), the opposite problem was created (handling exceptions is now too verbose).
+- In some cases, throwing exceptions can cause performance [issues](https://www.baeldung.com/java-exceptions-performance).
+This is because creating the stack trace contained in the exception object is an expansive operation in term of time. 
+
+But guess what? We are not tied to use exceptions. Exceptions are just one of multiple ways of handling errors.
+
+<p align="center">
+  ![There Is Another](/static/images/memes/there-is-another.jpeg)
+</p>
+
+
+## Another approach: Either
+
+
+
+
+
+
+```kotlin
+sealed class Either<out A, out B>
+data class Left<out A>(val value: A) : Either<A, Nothing>()
+data class Right<out B>(val value: B) : Either<Nothing, B>()
+```
+
+
+
+Here is an example of how exceptions are typically used in Kotlin / Java:
+
+```kotlin
+fun tryAlternativePaymentMethod(req: PaymentRequest): PaymentResult { /*...*/ }
+
+fun validateAndProcessPayment(req: PaymentRequest): PaymentResult {
+  // fetch account from request account id. If account is null, throw an exception
+  val account = accountService.getAccount(req.accountId) ?: throw AccountNotFoundException(req.accountId)
+
+  // fetch balance from account balance id. If balance is null, throw an exception
+  val balance = balanceService.getBalance(account.balanceId) ?: throw BalanceNotFoundException(req.accountId)
+
+  // if balance is not enough, throw an exception
+  if (balance.amount < req.amount) {
+    throw InsufficientBalanceException(account.balanceId)
+  }
+  // try processing the payment and return the result
+  // this can throw a PaymentException
+  return paymentProcessingService.processPayment(req)
+}
+
+fun processPayment(req: PaymentRequest): PaymentResult {
+  return try {
+    validateAndProcessPayment(req)
+  } catch (e: Exception) {
+    when (e) {
+      // throw a different exception in case of not found
+      is AccountNotFoundException, is BalanceNotFoundException -> throw CannotProcessPaymentException(e)
+      // try alternative payment method if processPaymentFails
+      is PaymentException -> tryAlternativePaymentMethod(req)
+      // if not, just rethrow exception
+      else -> throw e
+    }
+  }
+}
+```
