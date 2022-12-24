@@ -1,3 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid meet" viewBox="344.5639097744361 330.27819548872174 111.73684210526318 91.21804511278197" width="53.87" height="43.61"><defs><path d="M453.3 331.28L453.3 359.85L388.64 418.5L388.64 388.42L453.3 331.28Z" id="aFZf6T5ED"></path><linearGradient id="gradientb2ThqnP5Op" gradientUnits="userSpaceOnUse" x1="420.97" y1="331.28" x2="420.97" y2="418.5"><stop style="stop-color: #06b6d4;stop-opacity: 1" offset="0%"></stop><stop style="stop-color: #67e8f9;stop-opacity: 1" offset="100%"></stop></linearGradient><path d="M410.23 331.28L410.23 359.85L345.56 418.5L345.56 388.42L410.23 331.28Z" id="a9fehgwfM"></path><linearGradient id="gradientk1wNV9Ostb" gradientUnits="userSpaceOnUse" x1="377.89" y1="331.28" x2="377.89" y2="418.5"><stop style="stop-color: #06b6d4;stop-opacity: 1" offset="0%"></stop><stop style="stop-color: #67e8f9;stop-opacity: 1" offset="100%"></stop></linearGradient></defs><g><g><use xlink:href="#aFZf6T5ED" opacity="1" fill="url(#gradientb2ThqnP5Op)"></use></g><g><use xlink:href="#a9fehgwfM" opacity="1" fill="url(#gradientk1wNV9Ostb)"></use></g></g></svg>
+<svg viewBox="0 0 847 847" width="53.87" height="43.61" fill-rule="evenodd" clip-rule="evenodd" shape-rendering="geometricPrecision" text-rendering="geometricPrecision" image-rendering="optimizeQuality" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient gradientUnits="userSpaceOnUse" x1="423.125" y1="57" x2="423.125" y2="790" id="gradient-0">
+      <stop offset="0" style="stop-color: rgba(59, 131, 246, 1)"></stop>
+      <stop offset="1" style="stop-color: rgba(9, 80, 194, 1)"></stop>
+    </linearGradient>
+  </defs>
+  <path d="M6 681L358 65c4-6 7-8 14-8h100c6 0 10 2 13 8l356 616c2 4 2 9 0 13l-50 87c-3 5-7 9-13 9H69c-5 0-10-3-12-7L6 694c-3-3-3-10 0-13zm134-7l35-61h391l35 61H140zm485 27c10 0 17-11 12-20L437 336l36-61 282 488H76l-35-62h584zM379 84L41 674h68L449 84h-70zm94 14L191 586h71l199-345c5-10 19-9 24 0l293 508 35-61L473 98zM293 586h257L422 363 293 586z" style="paint-order: fill; fill: url(#gradient-0);"></path>
+</svg>
